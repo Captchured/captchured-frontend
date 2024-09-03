@@ -11,14 +11,15 @@ var timeDelay = [];
 // Variable to store the timestamp of the last key press
 var lastPressedTime = Date.now();
 
-// Array to store mouse movement data
-var mouseData = [];
+// Arrays to store mouse movements and clicks
+var mouseMovements = [];
+var mouseClicks = [];
 var lastMouseMoveTime = Date.now();
 
 // Function to capture keypress events
 document.addEventListener("keydown", (event) => {
     const keyName = event.key;
-    currTime = Date.now();
+    const currTime = Date.now();
 
     counter++;
     sequence.push(keyName);
@@ -27,16 +28,16 @@ document.addEventListener("keydown", (event) => {
     lastPressedTime = currTime;
 }, false);
 
-// Function to capture mouse movement events
+// Function to capture mouse movements
 document.addEventListener('mousemove', (event) => {
     const currMouseMoveTime = Date.now();
     
     // Record the current mouse position and the time delay since the last movement
-    mouseData.push({
-        type: 'mousemove',
+    mouseMovements.push({
         x: event.clientX,           // X-coordinate of the mouse pointer
         y: event.clientY,           // Y-coordinate of the mouse pointer
-        timeDelay: currMouseMoveTime - lastMouseMoveTime  // Time since last movement
+        timeDelay: currMouseMoveTime - lastMouseMoveTime,  // Time since last movement
+        timestamp: currMouseMoveTime  // Timestamp of the mouse movement
     });
     
     // Update the last mouse move time
@@ -45,25 +46,11 @@ document.addEventListener('mousemove', (event) => {
 
 // Function to capture mouse clicks
 document.addEventListener('click', (event) => {
-    // Record the click position and the time of the click
-    mouseData.push({
-        type: 'click',
+    // Record the click position and the timestamp of the click
+    mouseClicks.push({
         x: event.clientX,           // X-coordinate of the click
         y: event.clientY,           // Y-coordinate of the click
-        timestamp: Date.now()       // Time of the click
-    });
-});
-
-// Function to capture mouse hover over specific elements
-const hoverElements = document.querySelectorAll('.hover-track');
-hoverElements.forEach(element => {
-    element.addEventListener('mouseenter', (event) => {
-        // Record when the user hovers over an element
-        mouseData.push({
-            type: 'hover',
-            elementId: event.target.id || event.target.className,  // Element ID or class
-            timestamp: Date.now()       // Time of hover
-        });
+        timestamp: Date.now()       // Timestamp of the click
     });
 });
 
@@ -75,10 +62,11 @@ function init() {
 
 // Add all parameters to the global data object and log it
 function submit() {
-    timeDelay.shift();
+    timeDelay.shift(); // Optionally remove the first time delay value
     data["key_count"] = counter;
     data["key_sequence"] = sequence;
     data["time_delay"] = timeDelay;
-    data["mouse_movements"] = mouseData;
+    data["mouse_movements"] = mouseMovements;
+    data["mouse_clicks"] = mouseClicks;
     console.log(data);
 }
