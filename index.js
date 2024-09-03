@@ -62,7 +62,7 @@ hoverElements.forEach(element => {
         mouseData.push({
             type: 'hover',
             elementId: event.target.id || event.target.className,  // Element ID or class
-            timestamp: Date.now()       // Time of the hover
+            timestamp: Date.now()       // Time of hover
         });
     });
 });
