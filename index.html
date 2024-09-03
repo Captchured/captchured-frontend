@@ -1,11 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+<html>
+    <head>
+        <title>Homepage</title>
+        <link rel="stylesheet" href="index.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+    <body>
+        <div class="wrapper">
+            <form method="POST" action="">
+                <h1>Login</h1>
+                <div class="input-box">
+                    <input type="text" placeholder="Username" name="username" required>
+                    <!-- The name variable can be removed, it was used for python as backend. -->
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" placeholder="Password" name="password" required>
+                    <!-- Again, the name variable can be removed, it was used for python as backend. -->
+                    <i class='bx bxs-lock-alt' ></i>
+                </div>
+                <input type="submit" class="btn">Login</input> 
+                <!-- The login button needs to be added to the js code as an action. -->
+            </form>
+        </div>
+    </body>
 </html>
