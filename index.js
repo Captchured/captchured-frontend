@@ -71,7 +71,7 @@ window.onload = function() {
 
 function logTimeSpent() {
     let endTime = Date.now();
-    timeSpent = (endTime - startTime)/1000; //added division by 1000 to convert to secs... can be removed if reqd.
+    timeSpent = (endTime - startTime);
 }
 function submit() {
 
