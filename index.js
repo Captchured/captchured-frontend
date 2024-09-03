@@ -15,6 +15,8 @@ var lastPressedTime = Date.now();
 var mouseMovements = [];
 var mouseClicks = [];
 var lastMouseMoveTime = Date.now();
+let startTime;
+let timeSpent=0;
 
 // Function to capture keypress events
 document.addEventListener("keydown", (event) => {
@@ -61,12 +63,26 @@ function init() {
 }
 
 // Add all parameters to the global data object and log it
+
+
+window.onload = function() {
+    startTime = Date.now();
+}
+
+function logTimeSpent() {
+    let endTime = Date.now();
+    timeSpent = (endTime - startTime);
+}
 function submit() {
-    timeDelay.shift(); // Optionally remove the first time delay value
+
+    logTimeSpent();
+
+    timeDelay.shift();
     data["key_count"] = counter;
     data["key_sequence"] = sequence;
     data["time_delay"] = timeDelay;
     data["mouse_movements"] = mouseMovements;
     data["mouse_clicks"] = mouseClicks;
+    data["total_time"] = timeSpent;
     console.log(data);
 }
