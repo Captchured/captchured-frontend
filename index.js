@@ -16,10 +16,12 @@ var mouseMovements = [];
 var mouseClicks = [];
 var lastMouseMoveTime = Date.now();
 let startTime;
-let timeSpent=0;
+let timeSpent = 0;
 
 // Function to capture keypress events
-document.addEventListener("keydown", (event) => {
+document.addEventListener(
+  "keydown",
+  (event) => {
     const keyName = event.key;
     const currTime = Date.now();
 
@@ -28,61 +30,75 @@ document.addEventListener("keydown", (event) => {
     // Calculate the time delay since the last key press and store it
     timeDelay.push(currTime - lastPressedTime);
     lastPressedTime = currTime;
-}, false);
+  },
+  false
+);
 
 // Function to capture mouse movements
-document.addEventListener('mousemove', (event) => {
-    const currMouseMoveTime = Date.now();
-    
-    // Record the current mouse position and the time delay since the last movement
-    mouseMovements.push({
-        x: event.clientX,           // X-coordinate of the mouse pointer
-        y: event.clientY,           // Y-coordinate of the mouse pointer
-        timeDelay: currMouseMoveTime - lastMouseMoveTime,  // Time since last movement
-        timestamp: currMouseMoveTime  // Timestamp of the mouse movement
-    });
-    
-    // Update the last mouse move time
-    lastMouseMoveTime = currMouseMoveTime;
+document.addEventListener("mousemove", (event) => {
+  const currMouseMoveTime = Date.now();
+
+  // Record the current mouse position and the time delay since the last movement
+  mouseMovements.push({
+    x: event.clientX, // X-coordinate of the mouse pointer
+    y: event.clientY, // Y-coordinate of the mouse pointer
+    timeDelay: currMouseMoveTime - lastMouseMoveTime, // Time since last movement
+    timestamp: currMouseMoveTime, // Timestamp of the mouse movement
+  });
+
+  // Update the last mouse move time
+  lastMouseMoveTime = currMouseMoveTime;
 });
 
 // Function to capture mouse clicks
-document.addEventListener('click', (event) => {
-    // Record the click position and the timestamp of the click
-    mouseClicks.push({
-        x: event.clientX,           // X-coordinate of the click
-        y: event.clientY,           // Y-coordinate of the click
-        timestamp: Date.now()       // Timestamp of the click
-    });
+document.addEventListener("click", (event) => {
+  // Record the click position and the timestamp of the click
+  mouseClicks.push({
+    x: event.clientX, // X-coordinate of the click
+    y: event.clientY, // Y-coordinate of the click
+    timestamp: Date.now(), // Timestamp of the click
+  });
 });
 
 // Runs when the body loads
 function init() {
-    console.log("Starting");
-    console.log(lastPressedTime);
+  console.log("Starting");
+  console.log(lastPressedTime);
 }
 
-// Add all parameters to the global data object and log it
+// Function to log time spent on the page
+window.onload = function () {
+  startTime = Date.now();
 
-
-window.onload = function() {
-    startTime = Date.now();
-}
+  // Browser Inspector - Collect environmental data
+  data["environment"] = {
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    language: navigator.language,
+    cpu: navigator.hardwareConcurrency,
+    browser: navigator.userAgent,
+    cookiesEnabled: navigator.cookieEnabled,
+    os: navigator.platform,
+    deviceType: /Mobi|Tablet/.test(navigator.userAgent)
+      ? "Mobile/Tablet"
+      : "Desktop",
+  };
+};
 
 function logTimeSpent() {
-    let endTime = Date.now();
-    timeSpent = (endTime - startTime);
+  let endTime = Date.now();
+  timeSpent = endTime - startTime;
 }
+
 function submit() {
+  logTimeSpent();
 
-    logTimeSpent();
+  timeDelay.shift(); // Remove the first entry since it doesn't correspond to a keypress
+  data["key_count"] = counter;
+  data["key_sequence"] = sequence;
+  data["time_delay"] = timeDelay;
+  data["mouse_movements"] = mouseMovements;
+  data["mouse_clicks"] = mouseClicks;
+  data["total_time"] = timeSpent;
 
-    timeDelay.shift();
-    data["key_count"] = counter;
-    data["key_sequence"] = sequence;
-    data["time_delay"] = timeDelay;
-    data["mouse_movements"] = mouseMovements;
-    data["mouse_clicks"] = mouseClicks;
-    data["total_time"] = timeSpent;
-    console.log(data);
+  console.log(data);
 }
