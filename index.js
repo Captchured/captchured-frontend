@@ -19,20 +19,16 @@ let startTime;
 let timeSpent = 0;
 
 // Function to capture keypress events
-document.addEventListener(
-  "keydown",
-  (event) => {
-    const keyName = event.key;
-    const currTime = Date.now();
+document.addEventListener("keydown", (event) => {
+  const keyName = event.key;
+  const currTime = Date.now();
 
-    counter++;
-    sequence.push(keyName);
-    // Calculate the time delay since the last key press and store it
-    timeDelay.push(currTime - lastPressedTime);
-    lastPressedTime = currTime;
-  },
-  false
-);
+  counter++;
+  sequence.push(keyName);
+  // Calculate the time delay since the last key press and store it
+  timeDelay.push(currTime - lastPressedTime);
+  lastPressedTime = currTime;
+}, false);
 
 // Function to capture mouse movements
 document.addEventListener("mousemove", (event) => {
@@ -67,6 +63,69 @@ function init() {
 }
 
 // Function to log time spent on the page
+function logTimeSpent() {
+  let endTime = Date.now();
+  timeSpent = endTime - startTime;
+}
+
+// Function to submit the collected data
+function submit() {
+  logTimeSpent();
+
+  // Remove the first entry in timeDelay since it doesn't correspond to a keypress
+  timeDelay.shift();
+
+  // Prepare the data to be sent to the backend
+  const postData = {
+    key_count: counter,
+    key_sequence: sequence,
+    time_delay: timeDelay,
+    mouse_movements: mouseMovements,
+    mouse_clicks: mouseClicks,
+    total_time: timeSpent,
+    environment: {
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      language: navigator.language,
+      cpu: navigator.hardwareConcurrency,
+      browser: navigator.userAgent,
+      cookiesEnabled: navigator.cookieEnabled,
+      os: navigator.platform,
+      deviceType: /Mobi|Tablet/.test(navigator.userAgent)
+        ? "Mobile/Tablet"
+        : "Desktop",
+    },
+  };
+
+  // Make a POST request to the backend
+  fetch('http://localhost:3000/capture', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(postData),
+  })
+  .then(response => response.json())
+  .then(result => {
+    console.log('Success:', result);
+
+    /*
+    //  webpage pe result dikhane ke liye (optional)
+    const resultDiv = document.createElement('div');
+    resultDiv.textContent = `Server response: ${result.message}`;
+    document.body.appendChild(resultDiv);
+    */
+
+
+    // prediction result alert karke dikhane ke liye (comment/uncomment as needed)
+    alert(result.predictionResult); 
+
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+
+// Initialize the start time when the page loads
 window.onload = function () {
   startTime = Date.now();
 
@@ -83,22 +142,3 @@ window.onload = function () {
       : "Desktop",
   };
 };
-
-function logTimeSpent() {
-  let endTime = Date.now();
-  timeSpent = endTime - startTime;
-}
-
-function submit() {
-  logTimeSpent();
-
-  timeDelay.shift(); // Remove the first entry since it doesn't correspond to a keypress
-  data["key_count"] = counter;
-  data["key_sequence"] = sequence;
-  data["time_delay"] = timeDelay;
-  data["mouse_movements"] = mouseMovements;
-  data["mouse_clicks"] = mouseClicks;
-  data["total_time"] = timeSpent;
-
-  console.log(data);
-}

