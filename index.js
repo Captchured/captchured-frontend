@@ -132,16 +132,16 @@ window.onload = function () {
   startTime = Date.now();
 
   // Browser Inspector - Collect environmental data
-  data["environment"] = {
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    language: navigator.language,
-    cpu: navigator.hardwareConcurrency,
-    browser: navigator.userAgent,
-    // cookiesEnabled: navigator.cookieEnabled,
-    os: navigator.platform,
-    deviceType: /Mobi|Tablet/.test(navigator.userAgent)
-      ? "Mobile/Tablet"
-      : "Desktop",
-    // cookies: getCookies(),  // at the time when page load hoga, cookie will be retrieved
-  };
+//   data["environment"] = {     //not needed as of now, will only require if needed to collect data without clicking the "submit" button
+//     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+//     language: navigator.language,
+//     cpu: navigator.hardwareConcurrency,
+//     browser: navigator.userAgent,
+//     // cookiesEnabled: navigator.cookieEnabled,
+//     os: navigator.platform,
+//     deviceType: /Mobi|Tablet/.test(navigator.userAgent)
+//       ? "Mobile/Tablet"
+//       : "Desktop",
+//     // cookies: getCookies(),  // at the time when page load hoga, cookie will be retrieved
+//   };
 };
