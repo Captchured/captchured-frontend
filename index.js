@@ -105,7 +105,7 @@ function submit() {
     //   cookies: getCookies(),  // Adding captured cookies
     },
   };
-
+  console.log(postData)
   // Make a POST request to the backend
   fetch('http://localhost:3000/capture', {
     method: 'POST',
