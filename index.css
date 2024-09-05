@@ -130,3 +130,16 @@ button:hover {
     color: rgb(255, 255, 255);
     margin-top: 20px;
 }
+
+.slideContainer{
+    width: 100%;
+    margin-top: 50px;
+    justify-items: center;
+    align-items: center;
+}
+.slider{
+    width: 100%;
+    outline: none;
+    cursor: pointer;
+    justify-content: center;
+}
