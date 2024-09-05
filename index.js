@@ -68,14 +68,14 @@ function logTimeSpent() {
   timeSpent = endTime - startTime;
 }
 
-// Function to capture cookies
-function getCookies() {
-  return document.cookie.split(";").reduce((cookies, item) => {
-    const [name, value] = item.trim().split("=");
-    cookies[name] = value;
-    return cookies;
-  }, {});
-}
+// Function to capture cookies (not needed as of now)
+// function getCookies() {
+//   return document.cookie.split(";").reduce((cookies, item) => {
+//     const [name, value] = item.trim().split("=");
+//     cookies[name] = value;
+//     return cookies;
+//   }, {});
+// }
 
 // Function to submit the collected data
 function submit() {
@@ -97,12 +97,12 @@ function submit() {
       language: navigator.language,
       cpu: navigator.hardwareConcurrency,
       browser: navigator.userAgent,
-      cookiesEnabled: navigator.cookieEnabled,
+    //   cookiesEnabled: navigator.cookieEnabled,
       os: navigator.platform,
       deviceType: /Mobi|Tablet/.test(navigator.userAgent)
         ? "Mobile/Tablet"
         : "Desktop",
-      cookies: getCookies(),  // Adding captured cookies
+    //   cookies: getCookies(),  // Adding captured cookies
     },
   };
 
@@ -137,11 +137,11 @@ window.onload = function () {
     language: navigator.language,
     cpu: navigator.hardwareConcurrency,
     browser: navigator.userAgent,
-    cookiesEnabled: navigator.cookieEnabled,
+    // cookiesEnabled: navigator.cookieEnabled,
     os: navigator.platform,
     deviceType: /Mobi|Tablet/.test(navigator.userAgent)
       ? "Mobile/Tablet"
       : "Desktop",
-    cookies: getCookies(),  // at the time when page load hoga, cookie will be retrieved
+    // cookies: getCookies(),  // at the time when page load hoga, cookie will be retrieved
   };
 };
