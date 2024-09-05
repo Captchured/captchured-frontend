@@ -19,20 +19,16 @@ let startTime;
 let timeSpent = 0;
 
 // Function to capture keypress events
-document.addEventListener(
-  "keydown",
-  (event) => {
-    const keyName = event.key;
-    const currTime = Date.now();
+document.addEventListener("keydown", (event) => {
+  const keyName = event.key;
+  const currTime = Date.now();
 
-    counter++;
-    sequence.push(keyName);
-    // Calculate the time delay since the last key press and store it
-    timeDelay.push(currTime - lastPressedTime);
-    lastPressedTime = currTime;
-  },
-  false
-);
+  counter++;
+  sequence.push(keyName);
+  // Calculate the time delay since the last key press and store it
+  timeDelay.push(currTime - lastPressedTime);
+  lastPressedTime = currTime;
+}, false);
 
 // Function to capture mouse movements
 document.addEventListener("mousemove", (event) => {
@@ -67,38 +63,85 @@ function init() {
 }
 
 // Function to log time spent on the page
-window.onload = function () {
-  startTime = Date.now();
-
-  // Browser Inspector - Collect environmental data
-  data["environment"] = {
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    language: navigator.language,
-    cpu: navigator.hardwareConcurrency,
-    browser: navigator.userAgent,
-    cookiesEnabled: navigator.cookieEnabled,
-    os: navigator.platform,
-    deviceType: /Mobi|Tablet/.test(navigator.userAgent)
-      ? "Mobile/Tablet"
-      : "Desktop",
-  };
-};
-
 function logTimeSpent() {
   let endTime = Date.now();
   timeSpent = endTime - startTime;
 }
 
+// Function to capture cookies (not needed as of now)
+// function getCookies() {
+//   return document.cookie.split(";").reduce((cookies, item) => {
+//     const [name, value] = item.trim().split("=");
+//     cookies[name] = value;
+//     return cookies;
+//   }, {});
+// }
+
+// Function to submit the collected data
 function submit() {
   logTimeSpent();
 
-  timeDelay.shift(); // Remove the first entry since it doesn't correspond to a keypress
-  data["key_count"] = counter;
-  data["key_sequence"] = sequence;
-  data["time_delay"] = timeDelay;
-  data["mouse_movements"] = mouseMovements;
-  data["mouse_clicks"] = mouseClicks;
-  data["total_time"] = timeSpent;
+  // Remove the first entry in timeDelay since it doesn't correspond to a keypress
+  timeDelay.shift();
 
-  console.log(data);
+  // Prepare the data to be sent to the backend
+  const postData = {
+    key_count: counter,
+    key_sequence: sequence,
+    time_delay: timeDelay,
+    mouse_movements: mouseMovements,
+    mouse_clicks: mouseClicks,
+    total_time: timeSpent,
+    environment: {
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      language: navigator.language,
+      cpu: navigator.hardwareConcurrency,
+      browser: navigator.userAgent,
+    //   cookiesEnabled: navigator.cookieEnabled,
+      os: navigator.platform,
+      deviceType: /Mobi|Tablet/.test(navigator.userAgent)
+        ? "Mobile/Tablet"
+        : "Desktop",
+    //   cookies: getCookies(),  // Adding captured cookies
+    },
+  };
+
+  // Make a POST request to the backend
+  fetch('http://localhost:3000/capture', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(postData),
+  })
+  .then(response => response.json())
+  .then(result => {
+    console.log('Success:', result);
+
+    // Prediction result alert (optional)
+    alert(result.predictionResult); 
+
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
+
+// Initialize the start time when the page loads
+window.onload = function () {
+  startTime = Date.now();
+
+  // Browser Inspector - Collect environmental data
+//   data["environment"] = {     //not needed as of now, will only require if needed to collect data without clicking the "submit" button
+//     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+//     language: navigator.language,
+//     cpu: navigator.hardwareConcurrency,
+//     browser: navigator.userAgent,
+//     // cookiesEnabled: navigator.cookieEnabled,
+//     os: navigator.platform,
+//     deviceType: /Mobi|Tablet/.test(navigator.userAgent)
+//       ? "Mobile/Tablet"
+//       : "Desktop",
+//     // cookies: getCookies(),  // at the time when page load hoga, cookie will be retrieved
+//   };
+};
