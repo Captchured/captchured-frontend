@@ -3,26 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>Check Aadhaar Status</title>
     <link rel="stylesheet" href="index.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-<body onload="init();">
-    <div class="wrapper">
-        <form action="javascript:submit()" method="post" autocomplete="off">
-            <h1>Login</h1>
-            <div class="input-box">
-                <input type="text" placeholder="Username" name="username" required autocomplete="username">
-                <i class='bx bxs-user'></i>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="india-logo.png" alt="Indian Government Logo">
             </div>
-            <div class="input-box">
-                <input type="password" placeholder="Password" name="password" required autocomplete="current-password">
-                <i class='bx bxs-lock-alt'></i>
+            <div class="title">
+                <h1>Unique Identification Authority of India</h1>
             </div>
-            <input type="submit" class="btn">Login</input>
-        </form>
-    </div>
-    <!-- Link to the JavaScript file that handles keylogging and form submission -->
-    <script src="index.js"></script>
+            <div class="logo2">
+                <img src="aadharlogo.svg" alt="Indian Government Logo">
+            </div>
+        </div>
+    </header>
+
+    <section class="main-section">
+        <div class="sidebar">
+            <h2>Frequently Asked Questions</h2>
+            <ul>
+                <li>What details can I update through Update Aadhaar online Service?</li>
+                <li>Is there any fee involved for Online updation of Demographics details?</li>
+                <li>How many times Aadhaar data can be updated?</li>
+            </ul>
+        </div>
+
+        <div class="form-container">
+            <h2>Check Aadhaar Status</h2>
+            <p>Check if your Aadhaar is generated or updated...</p>
+
+            <form action="#" method="POST">
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="id_type" value="EID" checked> Enrolment ID
+                    </label>
+                    <label>
+                        <input type="radio" name="id_type" value="SRN"> SRN
+                    </label>
+                    <label>
+                        <input type="radio" name="id_type" value="URN"> URN
+                    </label>
+                </div>
+
+                <label for="enrolment-id">Enter 14 digit Enrolment Number</label>
+                <input type="text" id="enrolment-id" name="enrolment-id" placeholder="Enter Enrolment Number">
+
+                <label for="eid-date">Select EID date</label>
+                <input type="date" id="eid-date" name="eid-date">
+
+                <label for="eid-time">Select EID time</label>
+                <input type="time" id="eid-time" name="eid-time">
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <span>
+        <section class="footer">
+            <p>&copy; 2024 Unique Identification Authority of India</p>
+        </section>
+    </span>
 </body>
 </html>
