@@ -18,6 +18,8 @@ var lastMouseMoveTime = Date.now();
 let startTime;
 let timeSpent = 0;
 
+let isSubmitting = false;  // Flag to prevent multiple submissions
+
 // Function to capture keypress events
 document.addEventListener("keydown", (event) => {
   const keyName = event.key;
@@ -68,17 +70,13 @@ function logTimeSpent() {
   timeSpent = endTime - startTime;
 }
 
-// Function to capture cookies (not needed as of now)
-// function getCookies() {
-//   return document.cookie.split(";").reduce((cookies, item) => {
-//     const [name, value] = item.trim().split("=");
-//     cookies[name] = value;
-//     return cookies;
-//   }, {});
-// }
-
 // Function to submit the collected data
-function submit() {
+function submit(event) {
+  event.preventDefault(); // Prevent default form submission behavior
+
+  if (isSubmitting) return; // Prevent multiple submissions
+  isSubmitting = true;
+
   logTimeSpent();
 
   // Remove the first entry in timeDelay since it doesn't correspond to a keypress
@@ -97,15 +95,13 @@ function submit() {
       language: navigator.language,
       cpu: navigator.hardwareConcurrency,
       browser: navigator.userAgent,
-    //   cookiesEnabled: navigator.cookieEnabled,
       os: navigator.platform,
-      deviceType: /Mobi|Tablet/.test(navigator.userAgent)
-        ? "Mobile/Tablet"
-        : "Desktop",
-    //   cookies: getCookies(),  // Adding captured cookies
+      deviceType: /Mobi|Tablet/.test(navigator.userAgent) ? "Mobile/Tablet" : "Desktop",
     },
   };
-  console.log(postData)
+
+  console.log(postData);
+
   // Make a POST request to the backend
   fetch('http://localhost:3000/capture', {
     method: 'POST',
@@ -117,31 +113,20 @@ function submit() {
   .then(response => response.json())
   .then(result => {
     console.log('Success:', result);
-
-    // Prediction result alert (optional)
-    alert(result.predictionResult); 
-
+    alert(result.predictionResult); // Optional alert
   })
   .catch(error => {
     console.error('Error:', error);
+  })
+  .finally(() => {
+    isSubmitting = false;  // Reset the flag after submission completes
   });
 }
 
 // Initialize the start time when the page loads
 window.onload = function () {
   startTime = Date.now();
-
-  // Browser Inspector - Collect environmental data
-//   data["environment"] = {     //not needed as of now, will only require if needed to collect data without clicking the "submit" button
-//     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-//     language: navigator.language,
-//     cpu: navigator.hardwareConcurrency,
-//     browser: navigator.userAgent,
-//     // cookiesEnabled: navigator.cookieEnabled,
-//     os: navigator.platform,
-//     deviceType: /Mobi|Tablet/.test(navigator.userAgent)
-//       ? "Mobile/Tablet"
-//       : "Desktop",
-//     // cookies: getCookies(),  // at the time when page load hoga, cookie will be retrieved
-//   };
 };
+
+// Attach submit function to the form's submit event
+document.querySelector('form').addEventListener('submit', submit);
