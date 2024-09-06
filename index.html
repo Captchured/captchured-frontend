@@ -35,7 +35,6 @@
             <h2>Check Aadhaar Status</h2>
             <p>Check if your Aadhaar is generated or updated...</p>
 
-            <!-- Removed the inline JavaScript action attribute -->
             <form id="aadhaar-form">
                 <div class="radio-group">
                     <label>
@@ -58,17 +57,26 @@
                 <label for="eid-time">Select EID time</label>
                 <input type="time" id="eid-time" name="eid-time">
 
-                <!-- No need for onclick event here -->
                 <button id="submit-btn" type="submit">Submit</button>
             </form>
         </div>
+
+        <!-- Slider Container (Initially hidden) -->
+        <div id="slider-container" style="display: none;">
+            <h2>Interact with the Slider</h2>
+            <div class="slideContainer">
+                <input type="range" min="1" max="100" value="1" id="myRange" class="slider">
+                <p>Value: <span id="value"></span></p>
+            </div>
+        </div>
     </section>
 
-    <span>
+    <span>  
         <section class="footer">
             <p>&copy; 2024 Unique Identification Authority of India</p>
         </section>
     </span>
     <script src="index.js"></script>
+    <script src="slider.js"></script>
 </body>
 </html>

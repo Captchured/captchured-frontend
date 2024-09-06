@@ -38,10 +38,10 @@ document.addEventListener("mousemove", (event) => {
 
   // Record the current mouse position and the time delay since the last movement
   mouseMovements.push({
-    x: event.clientX, // X-coordinate of the mouse pointer
-    y: event.clientY, // Y-coordinate of the mouse pointer
-    timeDelay: currMouseMoveTime - lastMouseMoveTime, // Time since last movement
-    timestamp: currMouseMoveTime, // Timestamp of the mouse movement
+    x: event.clientX, 
+    y: event.clientY,
+    timeDelay: currMouseMoveTime - lastMouseMoveTime,
+    timestamp: currMouseMoveTime, 
   });
 
   // Update the last mouse move time
@@ -52,9 +52,9 @@ document.addEventListener("mousemove", (event) => {
 document.addEventListener("click", (event) => {
   // Record the click position and the timestamp of the click
   mouseClicks.push({
-    x: event.clientX, // X-coordinate of the click
-    y: event.clientY, // Y-coordinate of the click
-    timestamp: Date.now(), // Timestamp of the click
+    x: event.clientX, 
+    y: event.clientY, 
+    timestamp: Date.now(), 
   });
 });
 
@@ -113,6 +113,9 @@ function submit(event) {
   .then(response => response.json())
   .then(result => {
     console.log('Success:', result);
+    if (result.flag === 1) {
+        document.getElementById('slider-container').style.display = 'block'; 
+    }
     alert(result.predictionResult); // Optional alert
   })
   .catch(error => {

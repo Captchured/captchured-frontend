@@ -49,7 +49,7 @@ async function interactWithPage() {
     await new Promise(resolve => setTimeout(resolve, getRandomDelay(1000, 2000)));
     await page.click('button[type="submit"]');
 
-    await new Promise(resolve => setTimeout(resolve, 5000)); // Adjust based on the backend's response time
+    await new Promise(resolve => setTimeout(resolve, 1800000)); // Adjust based on the backend's response time
 
     await browser.close();
 }
