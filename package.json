@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "captchured-frontend": "file:",
     "puppeteer": "^23.3.0"
   }
 }

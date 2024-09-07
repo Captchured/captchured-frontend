@@ -19,10 +19,10 @@ async function interactWithPage() {
 
     await page.goto('http://127.0.0.1:5500/captchured-frontend/index.html');
 
-    // Filling the enrolment ID
+    // Filling the enrolment ID with a backtick at the beginning
     await page.waitForSelector('input#enrolment-id');
     await new Promise(resolve => setTimeout(resolve, getRandomDelay(500, 1500)));
-    const enrolmentId = Math.floor(Math.random() * 100000000000000).toString().padStart(14, '0');
+    const enrolmentId = '`' + Math.floor(Math.random() * 100000000000000).toString().padStart(14, '0');
     await page.type('input#enrolment-id', enrolmentId);
 
     // Filling the date
